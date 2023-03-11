@@ -1,4 +1,5 @@
 import argparse
+import re
 
 from loguru import logger
 from pathlib import Path
@@ -7,7 +8,6 @@ from typing import List
 from py2plantuml.model import Class
 from py2plantuml.parser import ClassParser
 from py2plantuml.reader import PythonFileReader
-
 
 
 def initialize_argument_parser() -> argparse.ArgumentParser:
@@ -26,14 +26,14 @@ def keep_only_specified_class_file(python_file_paths: List[Path], class_name: st
         with open(path, "r") as python_file:
             lines: List[str] = python_file.readlines()
         for line in lines:
-            if line.strip().startswith(f"class {class_name}"):
+            if re.match(f"class {class_name}\((.+)\):", line.strip()) or re.match(f"class {class_name}:", line.strip()):
                 return path
     raise ValueError(f"Could not find class '{class_name}'")
 
 
 if __name__ == "__main__":
-    parser = initialize_argument_parser()
-    arguments = parser.parse_args()
+    argparser = initialize_argument_parser()
+    arguments = argparser.parse_args()
 
     logger.info(f"Project path: '{arguments.project_path}'")
     logger.info(f"Class name: '{arguments.class_name}'")
