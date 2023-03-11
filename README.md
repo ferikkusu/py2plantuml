@@ -1,6 +1,6 @@
 # py2plantuml
 
-abstract goes here
+py2plantuml creates plant-uml compatible text files to create class diagrams for your python classes.
 
 - [py2plantuml](#py2plantuml)
   - [Introduction](#introduction)
@@ -9,10 +9,14 @@ abstract goes here
 
 
 ## Introduction
-Why yet another uml parser...
+Why yet another uml parser?
+Because existing parsers don't do what I want them to.  
 
 ## Usage
-How?
+General call:
+```sh
+python src/main.py -p path/to/project -c classToParse -o outputFile
+```
 
 ## Alternatives
 
