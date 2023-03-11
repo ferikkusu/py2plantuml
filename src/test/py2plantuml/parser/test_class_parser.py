@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from typing import List
 
-from py2plantuml.model import AccessModifiers, NamedModifiedItem
+from py2plantuml.model import AccessModifiers, Class
 from py2plantuml.parser import ClassParser
 
 
@@ -21,12 +21,13 @@ class ClassParserTest(TestCase):
         class_under_test: ClassParser = ClassParser()
 
         # when
-        actual: NamedModifiedItem = class_under_test.parse(data=[class_definition_line])
+        actual: Class = class_under_test.parse(data=[class_definition_line])
 
         # then
-        expected: NamedModifiedItem = NamedModifiedItem(
+        expected: Class = Class(
             access_modifier=AccessModifiers.PRIVATE,
-            name="TestClass"
+            name="TestClass",
+            fields=[]
         )
         
         assert actual == expected
