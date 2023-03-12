@@ -7,6 +7,7 @@ from typing import List
 from py2plantuml.model import Class
 from py2plantuml.parser import ClassParser
 from py2plantuml.reader import PythonFileReader
+from py2plantuml.writer import UmlWriter
 
 
 def initialize_argument_parser() -> argparse.ArgumentParser:
@@ -44,5 +45,5 @@ if __name__ == "__main__":
     for class_lines in classes_line_list:
         classes.append(parser.parse(data=class_lines))
 
-    print(classes)
-    arguments.output_path.write(classes[0].to_string())
+    writer: UmlWriter = UmlWriter(items=classes)
+    writer.write(output_file=arguments.output_path)
