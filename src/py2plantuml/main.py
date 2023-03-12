@@ -1,5 +1,4 @@
 import argparse
-import re
 
 from loguru import logger
 from pathlib import Path
@@ -21,16 +20,6 @@ def initialize_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def keep_only_specified_class_file(python_file_paths: List[Path], class_name: str) -> Path:
-    for path in python_file_paths:
-        with open(path, "r") as python_file:
-            lines: List[str] = python_file.readlines()
-        for line in lines:
-            if re.match(f"class {class_name}\((.+)\):", line.strip()) or re.match(f"class {class_name}:", line.strip()):
-                return path
-    raise ValueError(f"Could not find class '{class_name}'")
-
-
 if __name__ == "__main__":
     argparser = initialize_argument_parser()
     arguments = argparser.parse_args()
@@ -41,9 +30,13 @@ if __name__ == "__main__":
 
     directory: Path = arguments.project_path
     python_files: List[Path] = list(directory.rglob("*.py"))
-    python_file: Path = keep_only_specified_class_file(python_file_paths=python_files, class_name=arguments.class_name)
-    
-    reader: PythonFileReader = PythonFileReader(python_file_path=python_file)
+    reader: PythonFileReader
+    for python_file in python_files:
+        tmp_reader: PythonFileReader = PythonFileReader(python_file_path=python_file)
+        if tmp_reader.contains_specified_class_definition(class_name=arguments.class_name):
+            reader = tmp_reader
+            break
+
     classes_line_list: List[List[str]] = reader.find_classes()
     parser: ClassParser = ClassParser()
     
