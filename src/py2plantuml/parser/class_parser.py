@@ -53,5 +53,6 @@ class ClassParser(BaseParser):
                 class_definition_line_index = i
             elif lines[i].strip().startswith("def"):
                 first_function_definition_line_index = i
+                break
         
         return lines[class_definition_line_index+1:first_function_definition_line_index]
