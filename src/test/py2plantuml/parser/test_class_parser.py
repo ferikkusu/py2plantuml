@@ -27,6 +27,12 @@ class ClassParserTest(TestCase):
         expected: Class = Class(
             access_modifier=AccessModifiers.PRIVATE,
             name="TestClass",
+            parents=[Class(
+                access_modifier=AccessModifiers.PUBLIC,
+                name="Parent",
+                fields=[],
+                functions=[]
+            )],
             fields=[],
             functions=[]
         )

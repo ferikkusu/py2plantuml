@@ -17,6 +17,7 @@ class ClassParser(BaseParser):
         return Class(
             access_modifier=modifier,
             name=name,
+            parents=self._get_parents(class_definition_line=class_definition_line),
             fields=fields,
             functions=functions
         )
@@ -69,3 +70,13 @@ class ClassParser(BaseParser):
     def _find_function_lines(self, lines: List[str]) -> List[str]:
         function_lines: List[str] = [line.strip() for line in lines if line.strip().startswith("def ")]
         return function_lines
+
+    def _get_parents(self, class_definition_line: str) -> List[Class]:
+        parents: List[Class] = []
+        if not "(" in class_definition_line:
+            return parents
+        parents_line: str = class_definition_line[class_definition_line.index("(")+1:class_definition_line.index(")")]
+        parent_strings: List[str] = parents_line.split(",")
+        for parent_string in parent_strings:
+            parents.append(self.parse(data=[f"class {parent_string}"]))
+        return parents
