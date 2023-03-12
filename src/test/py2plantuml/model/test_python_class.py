@@ -15,7 +15,8 @@ class ClassTest(TestCase):
         class_under_test: Class = Class(
             access_modifier=AccessModifiers.PUBLIC,
             name="TestClass",
-            fields=[field]
+            fields=[field],
+            functions=[]
         )
         field_to_string_mock: MagicMock = MagicMock(return_value="FieldString")
 

@@ -1,6 +1,6 @@
 from typing import List
 
-from py2plantuml.model import AccessModifiers, Class, Field
+from py2plantuml.model import AccessModifiers, Class, Field, Function
 from py2plantuml.parser import BaseParser, FieldParser
 
 
@@ -11,12 +11,14 @@ class ClassParser(BaseParser):
         modifier: AccessModifiers = self.get_access_modifier(line=class_definition_line)
         name: str = self.get_name(line=class_definition_line)
 
-        fields: List[Field] = self._parse_fields(data=data)        
+        fields: List[Field] = self._parse_fields(data=data)
+        functions: List[Function] = []
 
         return Class(
             access_modifier=modifier,
             name=name,
-            fields=fields
+            fields=fields,
+            functions=functions
         )
 
     def _find_definition_line(self, lines: List[str]) -> str:

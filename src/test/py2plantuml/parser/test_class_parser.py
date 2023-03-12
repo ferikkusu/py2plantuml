@@ -27,7 +27,8 @@ class ClassParserTest(TestCase):
         expected: Class = Class(
             access_modifier=AccessModifiers.PRIVATE,
             name="TestClass",
-            fields=[]
+            fields=[],
+            functions=[]
         )
         
         assert actual == expected
