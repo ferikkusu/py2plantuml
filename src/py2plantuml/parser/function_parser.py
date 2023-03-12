@@ -24,7 +24,9 @@ class FunctionParser(BaseParser):
 
     def get_name(self, line: str) -> str:
         line_without_arguments: str = line[:line.index("(")]
-        return super().get_name(line_without_arguments)
+        if "__init__" in line_without_arguments:
+            return "__init__"
+        return super().get_name(line=line_without_arguments)
 
     def get_type(self, line: str) -> str:
         try:
